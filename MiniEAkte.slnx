@@ -1,3 +1,7 @@
 <Solution>
-  <Project Path="MiniEAkte/MiniEAkte.csproj" />
+  <Project Path="MiniEAkte.Application/MiniEAkte.Application.csproj" />
+  <Project Path="MiniEAkte.Domain/MiniEAkte.Domain.csproj" Id="7ddd3193-c214-490f-8805-2c103c2b036b" />
+  <Project Path="MiniEAkte.Infrastructure/MiniEAkte.Infrastructure.csproj" />
+  <Project Path="MiniEAkte.Tests/MiniEAkte.Tests.csproj" />
+  <Project Path="MiniEAkte.UI/MiniEAkte.UI.csproj" />
 </Solution>
