@@ -5,8 +5,52 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MiniEAkte.UI.Views"
         mc:Ignorable="d"
-        Title="LoginView" Height="450" Width="800">
-    <Grid>
-        
+        Title="LoginView" Height="270" Width="360"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Username -->
+        <TextBlock Text="Username" />
+        <TextBox Grid.Row="1"
+                 Margin="0,5,0,10"
+                 Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" />
+
+        <!-- Password -->
+        <TextBlock Grid.Row="2" Text="Password" />
+        <PasswordBox Grid.Row="3"
+                     Margin="0,5,0,10"
+                     PasswordChanged="PasswordBox_OnPasswordChanged"/>
+
+        <!-- Error message -->
+        <TextBlock Grid.Row="4"
+                   Foreground="Red"
+                   Text="{Binding ErrorMessage}"
+                   TextWrapping="Wrap"
+                   Margin="0,0,0,10"/>
+
+        <TextBlock Grid.Row="5"
+                   HorizontalAlignment="Center"
+                   Margin="0, 5, 0, 10">
+            <Run Text="You do not have an account?"/>
+            <Hyperlink Click="Signup_Click">
+                <Run Text="Sign up"/>
+            </Hyperlink>
+        </TextBlock>
+
+        <!-- Login button -->
+        <Button Grid.Row="6"
+                Content="Login"
+                Height="32"
+                Command="{Binding LoginCommand}"/>
     </Grid>
 </Window>

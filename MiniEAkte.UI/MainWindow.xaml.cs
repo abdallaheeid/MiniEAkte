@@ -8,6 +8,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Extensions.DependencyInjection;
+using MiniEAkte.Application.ViewModels;
+using MiniEAkte.UI.Views;
 
 namespace MiniEAkte.UI;
 
@@ -16,8 +19,25 @@ namespace MiniEAkte.UI;
 /// </summary>
 public partial class MainWindow : Window
 {
-    public MainWindow()
+    public MainWindow(MainWindowViewModel mainWindowViewModel)
     {
         InitializeComponent();
+        DataContext = mainWindowViewModel;
+    }
+
+    private async void CreateCaseFile_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            var dialog = App.Services.GetRequiredService<CreateCaseFileView>();
+            dialog.Owner = this;
+            dialog.ShowDialog();
+
+            await ((MainWindowViewModel)DataContext).CaseFiles.LoadAsync();
+        }
+        catch (Exception ee)
+        {
+            throw new Exception("Error by Creating new Case", ee);
+        }
     }
 }

@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MiniEAkte.Application.Interfaces
+namespace MiniEAkte.Application.Services.UserServices
 {
-    interface ICaseService
+    class UserService
     {
-        
     }
 }

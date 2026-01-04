@@ -2,14 +2,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MiniEAkte.Domain\MiniEAkte.Domain.csproj" />
+    <ProjectReference Include="..\MiniEAkte.Infrastructure\MiniEAkte.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="ViewModels\Auth\" />
-    <Folder Include="ViewModels\Base\" />
-    <Folder Include="ViewModels\Cases\" />
     <Folder Include="ViewModels\Documents\" />
-    <Folder Include="ViewModels\Users\" />
   </ItemGroup>
 
   <PropertyGroup>
