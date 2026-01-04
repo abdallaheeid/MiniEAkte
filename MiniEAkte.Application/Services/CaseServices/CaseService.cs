@@ -54,5 +54,28 @@ namespace MiniEAkte.Application.Services.CaseServices
             await _db.SaveChangesAsync();
         }
 
+        public async Task CloseAsync(int caseFileId)
+        {
+            _auth.DemandRole(UserRole.Admin);
+
+            var caseFile = await _db.CaseFiles.SingleOrDefaultAsync(c => c.Id == caseFileId);
+
+            if (caseFile == null)
+            {
+                throw new InvalidOperationException("Case File not found");
+            }
+
+            if (caseFile.Status == CaseStatus.Closed)
+            {
+                throw new InvalidOperationException("Case File is already closed");
+            }
+
+            caseFile.Status = CaseStatus.Closed;
+            caseFile.ClosedAt = DateTime.UtcNow;
+            caseFile.UpdatedAt = DateTime.UtcNow;
+
+            await _db.SaveChangesAsync();
+
+        }
     }
 }
