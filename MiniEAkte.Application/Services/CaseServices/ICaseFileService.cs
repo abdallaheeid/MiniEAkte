@@ -10,7 +10,9 @@ namespace MiniEAkte.Application.Services.CaseServices
     {
         Task<List<CaseFile>> GetAllCaseFilesAsync();
         Task CreateAsync(string fileNumber, string title, string owner, CaseStatus status);
-
         Task CloseAsync(int caseFileId);
+        Task<CaseFile?> GetByIdAsync(int caseFileId);
+        Task<List<Document>> GetDocumentsForCaseAsync(int caseFileId);
+        Task<Document> AddDocumentAsync(int caseFileId, string sourceFilePath);
     }
 }

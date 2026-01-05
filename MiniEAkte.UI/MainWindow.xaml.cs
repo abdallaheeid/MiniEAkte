@@ -1,4 +1,8 @@
-﻿using System.Text;
+﻿using Microsoft.Extensions.DependencyInjection;
+using MiniEAkte.Application.ViewModels;
+using MiniEAkte.Application.ViewModels.Cases;
+using MiniEAkte.UI.Views;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -8,9 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Microsoft.Extensions.DependencyInjection;
-using MiniEAkte.Application.ViewModels;
-using MiniEAkte.UI.Views;
 
 namespace MiniEAkte.UI;
 
@@ -39,5 +40,25 @@ public partial class MainWindow : Window
         {
             throw new Exception("Error by Creating new Case", ee);
         }
+    }
+
+    private void OpenCaseFileDetailsWindow(object sender, MouseButtonEventArgs e)
+    {
+        if (DataContext is not MainWindowViewModel vm)
+            return;
+
+        if (vm.SelectedCaseFile == null)
+            return;
+
+        var viewModel = ActivatorUtilities.CreateInstance<CaseFileDetailsViewModel>(
+            App.Services,
+            vm.SelectedCaseFile.Id);
+
+        var view = new CaseFileDetailsView(viewModel)
+        {
+            Owner = this
+        };
+
+        view.ShowDialog();
     }
 }

@@ -77,5 +77,61 @@ namespace MiniEAkte.Application.Services.CaseServices
             await _db.SaveChangesAsync();
 
         }
+
+        public async Task<CaseFile?> GetByIdAsync(int caseFileId)
+        {
+            return await _db.CaseFiles.AsNoTracking().SingleOrDefaultAsync(c => c.Id == caseFileId);
+        }
+
+        public async Task<List<Document>> GetDocumentsForCaseAsync(int caseFileId)
+        {
+            return await _db.Documents.AsNoTracking().Where(d => d.CaseFileId == caseFileId)
+                .OrderByDescending(d => d.CreatedAt).ToListAsync();
+        }
+
+        public async Task<Document> AddDocumentAsync(int caseFileId, string sourceFilePath)
+        {
+            _auth.DemandRole(UserRole.Admin);
+
+            if (!File.Exists(sourceFilePath))
+                throw new FileNotFoundException("Source file not found.");
+
+            var caseFile = await _db.CaseFiles.SingleOrDefaultAsync(c => c.Id == caseFileId);
+            if (caseFile == null)
+                throw new InvalidOperationException("Case File not found");
+
+            if (caseFile.Status == CaseStatus.Closed)
+                throw new InvalidOperationException("Cannot add document to a closed case");
+
+            var baseFolder = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                "MiniEAkte",
+                "Files",
+                $"case_{caseFileId}");
+
+            Directory.CreateDirectory(baseFolder);
+
+            var extension = Path.GetExtension(sourceFilePath);
+            var storedFileName = $"{Guid.NewGuid()}{extension}";
+            var destinationPath = Path.Combine(baseFolder, storedFileName);
+
+            File.Copy(sourceFilePath, destinationPath);
+
+            var document = new Document
+            {
+                CaseFileId = caseFileId,
+                DocumentType = extension.Trim('.').ToUpperInvariant(),
+                Subject = Path.GetFileName(sourceFilePath),
+                Tags = string.Empty,
+                FilePath = destinationPath,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            _db.Documents.Add(document);
+            await _db.SaveChangesAsync();
+
+            return document;
+        }
+
     }
 }

@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using MiniEAkte.Application.ViewModels.Cases;
 
 namespace MiniEAkte.UI.Views
 {
@@ -21,5 +22,8 @@ namespace MiniEAkte.UI.Views
         {
             InitializeComponent();
         }
+
+
+
     }
 }

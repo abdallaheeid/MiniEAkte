@@ -55,7 +55,8 @@
                   ItemsSource="{Binding CaseFiles.CaseFiles}"
                   AutoGenerateColumns="False"
                   SelectedItem="{Binding SelectedCaseFile, UpdateSourceTrigger=PropertyChanged}"
-                  IsReadOnly="True">
+                  IsReadOnly="True"
+                  MouseDoubleClick="OpenCaseFileDetailsWindow">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="File Number"
                                     Binding="{Binding FileNumber}"/>

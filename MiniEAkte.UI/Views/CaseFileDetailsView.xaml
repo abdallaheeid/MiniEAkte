@@ -1,0 +1,110 @@
+﻿<Window x:Class="MiniEAkte.UI.Views.CaseFileDetailsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels="clr-namespace:MiniEAkte.Application.ViewModels.Cases;assembly=MiniEAkte.Application"
+        mc:Ignorable="d"
+        Title="Case File Details"
+        Height="450"
+        Width="800"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        d:DataContext="{d:DesignInstance viewModels:CaseFileDetailsViewModel}">
+
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0"
+                Padding="10"
+                BorderBrush="#DDD"
+                BorderThickness="1"
+                CornerRadius="4"
+                Margin="0,0,0,15">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="File Number:"
+                           FontWeight="Bold"/>
+                <TextBlock Grid.Column="1"
+                           Text="{Binding CaseFile.FileNumber}"/>
+
+                <TextBlock Grid.Row="1"
+                           Text="Title:"
+                           FontWeight="Bold"/>
+                <TextBlock Grid.Row="1"
+                           Grid.Column="1"
+                           Text="{Binding CaseFile.Title}"/>
+
+                <TextBlock Grid.Row="2"
+                           Text="Status:"
+                           FontWeight="Bold"/>
+                <TextBlock Grid.Row="2"
+                           Grid.Column="1"
+                           Text="{Binding CaseFile.Status}"/>
+                <Button
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        Content="Upload Document"
+                        HorizontalContentAlignment="Center"
+                        Margin="5"
+                        Click="OpenFileDialog"/>
+                <Button
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Content="Delete Document"
+                    HorizontalContentAlignment="Center"
+                    Margin="5"/>
+                <Button
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    Content="Open Document"
+                    HorizontalContentAlignment="Center"
+                    Margin="5"/>
+            </Grid>
+        </Border>
+
+        <GroupBox Grid.Row="1"
+                  Header="Documents"
+                  Padding="5">
+
+            <DataGrid ItemsSource="{Binding Documents}"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="True"
+                      CanUserAddRows="False">
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Type"
+                                        Binding="{Binding DocumentType}"
+                                        Width="150"/>
+
+                    <DataGridTextColumn Header="Subject"
+                                        Binding="{Binding Subject}"
+                                        Width="*"/>
+
+                    <DataGridTextColumn Header="Tags"
+                                        Binding="{Binding Tags}"
+                                        Width="200"/>
+
+                    <DataGridTextColumn Header="Created"
+                                        Binding="{Binding CreatedAt}"
+                                        Width="150"/>
+                </DataGrid.Columns>
+
+            </DataGrid>
+        </GroupBox>
+    </Grid>
+</Window>

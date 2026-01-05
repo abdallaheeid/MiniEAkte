@@ -59,6 +59,7 @@ public partial class App : System.Windows.Application
         services.AddTransient<MainWindowViewModel>();
         services.AddTransient<CaseFileListViewModel>();
         services.AddTransient<CreateCaseFileViewModel>();
+        services.AddTransient<CaseFileDetailsViewModel>();
 
         services.AddTransient<LoginView>();
         services.AddTransient<SignupView>();
