@@ -14,5 +14,6 @@ namespace MiniEAkte.Application.Services.CaseServices
         Task<CaseFile?> GetByIdAsync(int caseFileId);
         Task<List<Document>> GetDocumentsForCaseAsync(int caseFileId);
         Task<Document> AddDocumentAsync(int caseFileId, string sourceFilePath);
+        Task<bool> DeleteDocumentAsync(int documentId);
     }
 }

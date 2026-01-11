@@ -1,15 +1,12 @@
 ﻿using MiniEAkte.Application.Services.CaseServices;
 using MiniEAkte.Domain.Entities;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
-using MiniEAkte.Application.ViewModels.Base;
-using AsyncRelayCommand = CommunityToolkit.Mvvm.Input.AsyncRelayCommand;
+using MiniEAkte.Domain.Enums;
+
 
 namespace MiniEAkte.Application.ViewModels.Cases
 {
@@ -19,7 +16,17 @@ namespace MiniEAkte.Application.ViewModels.Cases
         private readonly ICaseFileService _caseFileService;
         private readonly int _caseFileId;
         private CaseFile? _caseFile;
-        private string? _selectedFilePath;
+
+        public bool CanUploadDocument => 
+            CaseFile != null && 
+            CaseFile.Status != CaseStatus.Closed;
+
+        public bool CanDeleteDocument =>
+            SelectedDocument != null &&
+            CaseFile != null &&
+            CaseFile.Status != CaseStatus.Closed;
+
+        public Document? SelectedDocument { get; set; }
 
         public CaseFile? CaseFile
         {
@@ -28,6 +35,7 @@ namespace MiniEAkte.Application.ViewModels.Cases
             {
                 _caseFile = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(CanUploadDocument));
             }
         }
 
@@ -42,8 +50,18 @@ namespace MiniEAkte.Application.ViewModels.Cases
             _caseFileService = caseFileService;
 
             UploadDocumentCommand = new AsyncRelayCommand<string>(OnUploadDocumentAsync);
+            DeleteDocumentCommand = new AsyncRelayCommand<string>(OnDeleteDocumentAsync);
 
             _ = LoadAsync();
+        }
+
+        private async Task OnDeleteDocumentAsync(string? arg)
+        {
+            if (CanDeleteDocument && SelectedDocument != null)
+            {
+                await _caseFileService.DeleteDocumentAsync(SelectedDocument.Id);
+                Documents.Remove(SelectedDocument);
+            }
         }
 
         private async Task LoadAsync()
@@ -62,6 +80,7 @@ namespace MiniEAkte.Application.ViewModels.Cases
         }
 
         public ICommand UploadDocumentCommand { get; }
+        public ICommand DeleteDocumentCommand { get; }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -69,7 +88,6 @@ namespace MiniEAkte.Application.ViewModels.Cases
         {
             if (string.IsNullOrWhiteSpace(filePath))
                 return;
-            _selectedFilePath = filePath;
 
             var document = await _caseFileService.AddDocumentAsync(_caseFileId, filePath);
             Documents.Insert(0, document);

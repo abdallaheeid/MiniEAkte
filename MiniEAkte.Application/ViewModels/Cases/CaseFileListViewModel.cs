@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Text;
 using MiniEAkte.Application.Services.CaseServices;
 using MiniEAkte.Domain.Entities;
-
 namespace MiniEAkte.Application.ViewModels.Cases
 {
     public class CaseFileListViewModel
@@ -15,11 +14,11 @@ namespace MiniEAkte.Application.ViewModels.Cases
         public CaseFileListViewModel(ICaseFileService caseFileService)
         {
             _caseFileService = caseFileService;
-            LoadAsync();
+            _ = LoadAsync();
         }
 
 
-        public async Task LoadAsync()
+        public async Task<ObservableCollection<CaseFile>> LoadAsync()
         {
             var items = await _caseFileService.GetAllCaseFilesAsync();
 
@@ -28,6 +27,7 @@ namespace MiniEAkte.Application.ViewModels.Cases
             {
                 CaseFiles.Add(item);
             }
+            return CaseFiles;
         }
 
     }

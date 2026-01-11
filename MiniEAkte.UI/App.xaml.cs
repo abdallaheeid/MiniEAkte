@@ -13,6 +13,7 @@ using MiniEAkte.UI.Views;
 using System.Configuration;
 using System.Data;
 using System.Windows;
+using MiniEAkte.UI.MainUIViewModel;
 
 namespace MiniEAkte.UI;
 

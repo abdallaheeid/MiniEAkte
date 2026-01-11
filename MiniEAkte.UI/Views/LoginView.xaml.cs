@@ -42,6 +42,9 @@ namespace MiniEAkte.UI.Views
             Close();
         }
 
+
+
+
         private void Signup_Click(object sender, RoutedEventArgs e)
         {
             var signupView = App.Services.GetRequiredService<SignupView>();

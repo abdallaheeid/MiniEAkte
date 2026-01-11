@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MiniEAkte.UI.MainUIViewModel;
 
 namespace MiniEAkte.UI;
 
@@ -34,10 +35,11 @@ public partial class MainWindow : Window
             dialog.Owner = this;
             dialog.ShowDialog();
 
-            await ((MainWindowViewModel)DataContext).CaseFiles.LoadAsync();
+            await ((MainWindowViewModel)DataContext).CaseFilesViewModel.LoadAsync();
         }
         catch (Exception ee)
         {
+            // ReSharper disable once AsyncVoidThrowException
             throw new Exception("Error by Creating new Case", ee);
         }
     }

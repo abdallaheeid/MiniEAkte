@@ -133,5 +133,29 @@ namespace MiniEAkte.Application.Services.CaseServices
             return document;
         }
 
+        public async Task<bool> DeleteDocumentAsync(int documentId)
+        {
+            // Only Admins can delete documents
+            _auth.DemandRole(UserRole.Admin);
+
+            // Find the document
+            var document = await _db.Documents.SingleOrDefaultAsync(d => d.Id == documentId);
+
+            // If not found, return false
+            if (document == null)
+                return false;
+
+            // Remove the document record from the database
+            _db.Documents.Remove(document);
+            await _db.SaveChangesAsync();
+
+            // Delete the physical file if it exists
+            if (!string.IsNullOrEmpty(document.FilePath) && File.Exists(document.FilePath))
+            {
+                File.Delete(document.FilePath);
+            }
+            return true;
+        }
+
     }
 }

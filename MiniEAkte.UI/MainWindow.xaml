@@ -3,15 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:vm="clr-namespace:MiniEAkte.Application.ViewModels"
+        xmlns:mainVM="clr-namespace:MiniEAkte.UI.MainUIViewModel"
         xmlns:local="clr-namespace:MiniEAkte.UI"
-        xmlns:viewModels="clr-namespace:MiniEAkte.Application.ViewModels;assembly=MiniEAkte.Application"
         mc:Ignorable="d"
         Title="MainWindow" 
         Height="450"
         Width="900"
         WindowStartupLocation="CenterScreen"
-        d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel}">
+        d:DataContext="{d:DesignInstance mainVM:MainWindowViewModel}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -49,30 +48,43 @@
                     Margin="10,0,0,5"
                     Command="{Binding CloseCaseCommand}"/>
         </Grid>
-
-        <DataGrid Grid.Column="1"
-                  Margin="10"
-                  ItemsSource="{Binding CaseFiles.CaseFiles}"
-                  AutoGenerateColumns="False"
-                  SelectedItem="{Binding SelectedCaseFile, UpdateSourceTrigger=PropertyChanged}"
-                  IsReadOnly="True"
-                  MouseDoubleClick="OpenCaseFileDetailsWindow">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="File Number"
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" Margin="10, 20, 10, 10">
+                <TextBlock Text="Search" FontSize="15" FontWeight="SemiBold"></TextBlock>
+                <TextBox Padding="2" Background="Aqua" Margin="10,0,0,0"
+                         Width="300"
+                         TextAlignment="Left" HorizontalAlignment="Center" HorizontalContentAlignment="Left"
+                         ToolTip="Search by file number, title, status"
+                         Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+            <DataGrid Grid.Row="1"
+                      Margin="10"
+                      ItemsSource="{Binding CaseFilesView}"
+                      AutoGenerateColumns="False"
+                      SelectedItem="{Binding SelectedCaseFile, UpdateSourceTrigger=PropertyChanged}"
+                      IsReadOnly="True"
+                      MouseDoubleClick="OpenCaseFileDetailsWindow">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="File Number"
                                     Binding="{Binding FileNumber}"/>
 
-                <DataGridTextColumn Header="Title"
+                    <DataGridTextColumn Header="Title"
                                     Binding="{Binding Title}" />
-                <DataGridTextColumn Header="Status"
+                    <DataGridTextColumn Header="Status"
                                     Binding="{Binding Status}"/>
-                <DataGridTextColumn Header="Owner"
+                    <DataGridTextColumn Header="Owner"
                                     Binding="{Binding Owner}" />
 
-                <DataGridTextColumn Header="Created"
+                    <DataGridTextColumn Header="Created"
                                     Binding="{Binding CreatedAt}" />
-                <DataGridTextColumn Header="Closed"
+                    <DataGridTextColumn Header="Closed"
                                     Binding="{Binding ClosedAt}" />
-            </DataGrid.Columns>
-        </DataGrid>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
     </Grid>
 </Window>
