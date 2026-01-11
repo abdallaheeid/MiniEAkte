@@ -8,7 +8,6 @@
   <ItemGroup>
     <Folder Include="ViewModels\Auth\" />
     <Folder Include="ViewModels\Commands\" />
-    <Folder Include="ViewModels\Documents\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+﻿using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Win32;
 using MiniEAkte.Application.ViewModels.Cases;
 
@@ -40,6 +32,21 @@ namespace MiniEAkte.UI.Views
                 vm.UploadDocumentCommand.Execute(fileDialog.FileName);
             }
 
+        }
+
+        private void OpenPreviewWindow(object sender, MouseButtonEventArgs e)
+        {
+            // NO Business Logic in the View!
+
+            if (DataContext is not CaseFileDetailsViewModel vm)
+                return;
+            if (vm.SelectedDocument is null)
+                return;
+
+            var previewWindow = App.Services.GetRequiredService<DocumentPreviewView>();
+
+            if(previewWindow.Initialize(vm.SelectedDocument))
+                previewWindow.ShowDialog();
         }
     }
 }

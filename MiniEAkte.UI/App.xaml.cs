@@ -13,6 +13,7 @@ using MiniEAkte.UI.Views;
 using System.Configuration;
 using System.Data;
 using System.Windows;
+using MiniEAkte.Application.ViewModels.Documents;
 using MiniEAkte.UI.MainUIViewModel;
 
 namespace MiniEAkte.UI;
@@ -66,6 +67,8 @@ public partial class App : System.Windows.Application
         services.AddTransient<SignupView>();
         services.AddTransient<MainWindow>();
         services.AddTransient<CreateCaseFileView>();
+        services.AddTransient<DocumentPreviewView>();
+
 
     }
 }

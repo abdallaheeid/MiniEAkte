@@ -87,7 +87,8 @@
                       AutoGenerateColumns="False"
                       IsReadOnly="True"
                       CanUserAddRows="False"
-                      SelectedItem="{Binding SelectedDocument}">
+                      SelectedItem="{Binding SelectedDocument}"
+                      MouseDoubleClick="OpenPreviewWindow">
 
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Type"
